@@ -285,9 +285,15 @@ export default Vue.extend({
         allCompatibility[10].push(candidate.name)
       }
     })
+    let distanceStandard = null
+    if (user.user.total < 50) {
+      distanceStandard = (100 - user.user.total) / 3
+    } else {
+      distanceStandard = user.user.total / 3
+    }
     return {
       user: user.user,
-      distanceStandard: user.user.total / 3,
+      distanceStandard,
       allCompatibility,
       selected: '部署を選択してください',
       changeDepartment: false
@@ -375,10 +381,10 @@ export default Vue.extend({
           return [`calc(${this.getNormalCompatibilityRatio}% - 15px)`, `${100 - this.getNormalCompatibilityRatio}%`, 'translateX(-0%) translateY(-0%)']
         }
       } else if (this.getBadCompatibilityRatio === 0) {
-        if (this.getGoodCompatibilityRatio < 50) {
+        if (this.getGoodCompatibilityRatio <= 50) {
           return ['50%', '20px', 'translateX(-0%) translateY(-50%)']
         } else {
-          return [`calc(${100 - this.getNormalCompatibilityRatio}% - 15px)`, `20px`, 'translateX(-0%) translateY(-0%)']
+          return [`25%`, `20px`, 'translateX(-0%) translateY(-0%)']
         }
       } else if (this.getGoodCompatibilityRatio === this.getNormalCompatibilityRatio && this.getBadCompatibilityRatio === this.getNormalCompatibilityRatio) {
         return [`75%`, `50%`, 'translateX(-50%) translateY(-0%)']
